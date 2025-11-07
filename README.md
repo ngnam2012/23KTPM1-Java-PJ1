@@ -97,16 +97,16 @@
 
 | STT | Chức năng | Mô tả | Đạt yêu cầu |
 |:--:|:--|:--|:--:|
-| 1 | Tìm kiếm theo slang | Nhập slang → tra nhanh | Có |
-| 2 | Tìm theo definition | Nhập từ khóa trong nghĩa | Có |
-| 3 | Lưu history | Ghi lại các slang đã tìm | Có |
-| 4 | Thêm slang | Thêm slang mới, cảnh báo trùng | Có |
-| 5 | Sửa slang | Sửa nghĩa slang | Có |
-| 6 | Xóa slang | Xoá slang có confirm | Có |
-| 7 | Reset data | Phục hồi từ file gốc | Có |
-| 8 | Random slang | Hiển thị ngẫu nhiên 1 slang | Có |
-| 9 | Quiz S→D | Đố vui slang → nghĩa | Có |
-| 10 | Quiz D→S | Đố vui nghĩa → slang | Có |
+| 1 | Tìm kiếm theo slang | Nhập slang → tra nhanh | Cập nhật sau |
+| 2 | Tìm theo definition | Nhập từ khóa trong nghĩa | Cập nhật sau |
+| 3 | Lưu history | Ghi lại các slang đã tìm | Cập nhật sau |
+| 4 | Thêm slang | Thêm slang mới, cảnh báo trùng | Cập nhật sau |
+| 5 | Sửa slang | Sửa nghĩa slang | Cập nhật sau |
+| 6 | Xóa slang | Xoá slang có confirm | Cập nhật sau |
+| 7 | Reset data | Phục hồi từ file gốc | Cập nhật sau |
+| 8 | Random slang | Hiển thị ngẫu nhiên 1 slang | Cập nhật sau |
+| 9 | Quiz S→D | Đố vui slang → nghĩa | Cập nhật sau |
+| 10 | Quiz D→S | Đố vui nghĩa → slang | Cập nhật sau |
 
 ---
 
@@ -129,7 +129,7 @@
 
 ## 9. Video demo
 
-- Video YouTube: (điền link demo sau khi upload)  
+- Video YouTube: (cập nhật sau)  
 - Nội dung video gồm:  
   - Giới thiệu cấu trúc dữ liệu và mô hình  
   - Demo ít nhất 1 chức năng (ví dụ: Search hoặc Quiz)  
@@ -139,8 +139,7 @@
 
 ## 10. Tài liệu tham khảo
 - Slide bài giảng môn Lập trình ứng dụng Java – FIT HCMUS  
-- Tài liệu chính thức: [OpenJFX Documentation](https://openjfx.io/)  
-- Oracle Java SE API Docs  
+- Tài liệu chính thức: [OpenJFX Documentation](https://openjfx.io/) 
 
 ---
 
@@ -156,9 +155,4 @@
 ## 12. Tác giả & Liên hệ
 Nguyễn Nhật Nam – 23127092  
 Trường Đại học Khoa học Tự nhiên – ĐHQG TP.HCM  
-Email: 23127092@student.hcmus.edu.vn  
-
----
-
-"The best way to learn Java is to build something with it."  
-— Slang Dictionary Project, JavaFX Edition
+Email: 23127092@student.hcmus.edu.vn
