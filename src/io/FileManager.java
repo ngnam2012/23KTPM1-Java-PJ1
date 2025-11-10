@@ -30,14 +30,14 @@ public class FileManager {
                 }
                 List<String> defs = new ArrayList<>();
                 String[] defsArray = defsRaw.split("\\|");
-                for (String def : defs) {
+                for (String def : defsArray) {
                     String t = def.trim();
                     if (!t.isEmpty()) {
                         defs.add(t);
                     }
-                    if (!slang.isEmpty() && !defs.isEmpty()) {
-                        out.add(new Entry(slang, defs));
-                    }
+                }
+                if (!slang.isEmpty() && !defs.isEmpty()) {
+                    out.add(new Entry(slang, defs));
                 }
             }
         }

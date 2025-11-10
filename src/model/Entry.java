@@ -22,7 +22,7 @@ public class Entry {
         return Collections.unmodifiableList(definitions);
     }
     public String toDataLine() {
-        return slang + "`" + String.join("|", definitions);
+        return slang + "`" + String.join("| ", definitions);
     }
 
     @Override

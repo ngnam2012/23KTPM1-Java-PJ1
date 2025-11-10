@@ -7430,7 +7430,7 @@ YAR`Yes
 YARD`Home
 YARDIE`gang member
 YARLY`Yeah Really
-YAS`Emphatic Yes| You are Sexy
+YAS`yes| no| ok
 YASNY`You Ain't Seen Nothing Yet
 YAT`Girl| woman| Where You At?
 YATB`You Are The Best
