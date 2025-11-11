@@ -2,25 +2,31 @@ package test;
 
 import model.Entry;
 import core.SlangDictionary;
+import core.HistoryService;
 import io.FileManager;
 
 import java.util.*;
 import java.io.IOException;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
 
     private static SlangDictionary dict;
+    private static HistoryService historyService;
     private static final Scanner scanner = new Scanner(System.in);
+    private static final String HISTORY_LOG_FILE = "data/search_history.log";
 
     public static void main(String[] args) {
         FileManager file = new FileManager("data/slang.txt");
         dict = new SlangDictionary(file);
 
+        historyService = new HistoryService(new File(HISTORY_LOG_FILE));
+
         try {
             dict.load();
-            System.out.println("📘 Slang dictionary loaded!");
+            System.out.println("Slang dictionary loaded!");
             System.out.println("Total slangs: " + dict.allSorted().size());
         } catch (IOException e) {
             System.err.println("Critical error loading file: " + e.getMessage());
@@ -53,9 +59,12 @@ public class Main {
                     showAllSlangs();
                     break;
                 case "7":
-                    running = false;
+                    showHistory();
                     break;
                 case "8":
+                    running = false;
+                    break;
+                case "9":
                     saveAndExit();
                     running = false;
                     break;
@@ -78,9 +87,10 @@ public class Main {
         System.out.println("4. Edit slang (overwrite)");
         System.out.println("5. Get random slang");
         System.out.println("6. Show all slangs (first 20)");
+        System.out.println("7. Show search history");
         System.out.println("---");
-        System.out.println("7. Exit (Don't save)");
-        System.out.println("8. Save and Exit");
+        System.out.println("8. Exit (Don't save)");
+        System.out.println("9. Save and Exit");
         System.out.print("Enter your choice: ");
     }
 
@@ -88,25 +98,49 @@ public class Main {
         System.out.print("Nhập slang cần tìm: ");
         String slang = scanner.nextLine().trim();
 
-        // Gọi hàm mới bạn vừa tạo ở SlangDictionary
+        if (slang.isEmpty()) {
+            System.out.println("Slang cannot be empty.");
+            return;
+        }
+
         dict.getSlang(slang).ifPresentOrElse(
-                definitionsList -> { // 'definitionsList' là List<String>
-                    // Dùng String.join để in cho đẹp
-                    System.out.println("✅ Kết quả: " + slang + " = " + String.join("; ", definitionsList));
+                definitionsList -> {
+                    String result = String.join("; ", definitionsList);
+                    System.out.println("Kết quả: " + slang + " = " + result);
+                    historyService.logSearch("SLANG_KEY", slang, result);
                 },
-                () -> System.out.println("❌ Không tìm thấy slang '" + slang + "'")
+                () -> {
+                    System.out.println("Không tìm thấy slang '" + slang + "'");
+                    historyService.logSearch("SLANG_KEY", slang, "NOT_FOUND");
+                }
         );
     }
 
     private static void findByDefinition() {
         System.out.print("Enter keyword to find in definition: ");
         String query = scanner.nextLine().trim();
+
+        if (query.isEmpty()) {
+            System.out.println("Keyword cannot be empty.");
+            return;
+        }
+
         List<Entry> results = dict.searchByDefinition(query);
 
         if (results.isEmpty()) {
-            System.out.println("❌ No slangs found containing '" + query + "'");
+            System.out.println("No slangs found containing '" + query + "'");
+            historyService.logSearch("DEFINITION", query, "NOT_FOUND");
         } else {
-            System.out.println("✅ Found " + results.size() + " results:");
+            System.out.println("Found " + results.size() + " results:");
+
+            String logResult = results.stream()
+                    .limit(3)
+                    .map(e -> e.getSlang() + "...")
+                    .collect(Collectors.joining(", "));
+            if(results.size() > 3) logResult += ", ...";
+
+            historyService.logSearch("DEFINITION", query, logResult);
+
             for (Entry e : results) {
                 System.out.println("  -> " + e);
             }
@@ -125,7 +159,7 @@ public class Main {
                 .collect(Collectors.toList());
 
         if (slang.isEmpty() || definitions.isEmpty()) {
-            System.out.println("❌ Slang or definitions cannot be empty.");
+            System.out.println("Slang or definitions cannot be empty.");
             return;
         }
 
@@ -134,9 +168,9 @@ public class Main {
 
         boolean success = dict.addOrAppend(slang, definitions, append);
         if (success) {
-            System.out.println("✅ Successfully added/updated slang '" + slang + "'.");
+            System.out.println("Successfully added/updated slang '" + slang + "'.");
         } else {
-            System.out.println("❌ Slang '" + slang + "' already exists and you chose not to append.");
+            System.out.println("Slang '" + slang + "' already exists and you chose not to append.");
         }
     }
 
@@ -152,21 +186,21 @@ public class Main {
                 .collect(Collectors.toList());
 
         if (slang.isEmpty() || definitions.isEmpty()) {
-            System.out.println("❌ Slang or definitions cannot be empty.");
+            System.out.println("Slang or definitions cannot be empty.");
             return;
         }
 
         boolean success = dict.edit(slang, definitions);
         if (success) {
-            System.out.println("✅ Successfully edited slang '" + slang + "'.");
+            System.out.println("Successfully edited slang '" + slang + "'.");
         } else {
-            System.out.println("❌ Slang '" + slang + "' not found to edit.");
+            System.out.println("Slang '" + slang + "' not found to edit.");
         }
     }
 
     private static void randomSlang() {
         Entry randomEntry = dict.random();
-        System.out.println("🎲 Random slang of the day:");
+        System.out.println("Random slang of the day:");
         System.out.println("  -> " + randomEntry);
     }
 
@@ -186,9 +220,28 @@ public class Main {
     private static void saveAndExit() {
         try {
             dict.save();
-            System.out.println("💾 Changes saved to file.");
+            System.out.println("Changes saved to file.");
         } catch (IOException e) {
             System.err.println("Critical error saving file: " + e.getMessage());
+        }
+    }
+
+    private static void showHistory() {
+        System.out.println("\n" + String.join("", Collections.nCopies(30, "-")));
+        System.out.println("SEARCH HISTORY");
+        System.out.println(String.join("", Collections.nCopies(30, "-")));
+
+        List<String> history = historyService.readAll();
+
+        if (history.isEmpty()) {
+            System.out.println("No search history found.");
+            return;
+        }
+
+        Collections.reverse(history);
+
+        for (String log : history) {
+            System.out.println(log);
         }
     }
 }
