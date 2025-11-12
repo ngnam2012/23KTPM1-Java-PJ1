@@ -3,6 +3,7 @@ package test;
 import model.Entry;
 import core.SlangDictionary;
 import core.HistoryService;
+import core.QuizService;
 import io.FileManager;
 
 import java.util.*;
@@ -15,6 +16,7 @@ public class Main {
 
     private static SlangDictionary dict;
     private static HistoryService historyService;
+    private static QuizService quizService;
     private static final Scanner scanner = new Scanner(System.in);
     private static final String HISTORY_LOG_FILE = "data/search_history.log";
 
@@ -23,6 +25,7 @@ public class Main {
         dict = new SlangDictionary(file);
 
         historyService = new HistoryService(new File(HISTORY_LOG_FILE));
+        quizService = new QuizService(dict);
 
         try {
             dict.load();
@@ -62,9 +65,12 @@ public class Main {
                     showHistory();
                     break;
                 case "8":
-                    running = false;
+                    startQuiz();
                     break;
                 case "9":
+                    running = false;
+                    break;
+                case "10":
                     saveAndExit();
                     running = false;
                     break;
@@ -88,11 +94,51 @@ public class Main {
         System.out.println("5. Get random slang");
         System.out.println("6. Show all slangs (first 20)");
         System.out.println("7. Show search history");
+        System.out.println("8. Quiz time!");
         System.out.println("---");
-        System.out.println("8. Exit (Don't save)");
-        System.out.println("9. Save and Exit");
+        System.out.println("9. Exit (Don't save)");
+        System.out.println("10. Save and Exit");
         System.out.print("Enter your choice: ");
     }
+
+    private static void startQuiz() {
+        System.out.println("\n--- QUIZ TIME! ---");
+        System.out.println("1. Guess Definition (from Slang)");
+        System.out.println("2. Guess Slang (from Definition)");
+        System.out.print("Choose quiz type (or anything else to cancel): ");
+        String quizChoice = scanner.nextLine();
+
+        QuizService.Quiz quiz;
+
+        if (quizChoice.equals("1")) {
+            quiz = quizService.makeQuizSlang2Def();
+        } else if (quizChoice.equals("2")) {
+            quiz = quizService.makeQuizDef2Slang();
+        } else {
+            System.out.println("Invalid choice. Returning to menu.");
+            return;
+        }
+
+        System.out.println("\nQuestion: " + quiz.question);
+        for (int i = 0; i < quiz.answer.size(); i++) {
+            System.out.println("  " + (i + 1) + ". " + quiz.answer.get(i));
+        }
+
+        System.out.print("Your answer (1-4): ");
+        int userAns = -1;
+        try {
+            userAns = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+        }
+
+        if (userAns - 1 == quiz.correctIndex) {
+            System.out.println("Correct!");
+        } else {
+            System.out.println("Wrong!");
+            System.out.println("The correct answer was: " + (quiz.correctIndex + 1) + ". " + quiz.answer.get(quiz.correctIndex));
+        }
+    }
+
 
     private static void findSlang() {
         System.out.print("Nhập slang cần tìm: ");
