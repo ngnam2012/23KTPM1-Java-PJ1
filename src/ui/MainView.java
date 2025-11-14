@@ -32,4 +32,7 @@ public class MainView {
     private Label lbStatus, lbLoadedCount, lbRandom;
     private CheckBox cbDark;
 
+    public Pane getRoot() { return root; }
+
+
 }
