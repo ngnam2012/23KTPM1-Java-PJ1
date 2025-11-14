@@ -12,10 +12,11 @@ public class QuizView {
         dlg.setTitle("Quiz");
         dlg.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-        Label lbQ = new Label(q.question); lbQ.setWrapText(true);
+        Label lbQ = new Label(q.question);
+        lbQ.setWrapText(true);
 
         ToggleGroup group = new ToggleGroup();
-        RadioButton[] opts = { new RadioButton(), new RadioButton(), new RadioButton(), new RadioButton() };
+        RadioButton[] opts = {new RadioButton(), new RadioButton(), new RadioButton(), new RadioButton()};
         for (int i = 0; i < 4; i++) {
             opts[i].setText(q.options.get(i));
             opts[i].setToggleGroup(group);
@@ -57,5 +58,6 @@ public class QuizView {
         dlg.showAndWait();
     }
 
-    private QuizView() {}
+    private QuizView() {
+    }
 }
