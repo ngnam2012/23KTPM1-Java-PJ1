@@ -18,7 +18,7 @@ public class QuizView {
         ToggleGroup group = new ToggleGroup();
         RadioButton[] opts = {new RadioButton(), new RadioButton(), new RadioButton(), new RadioButton()};
         for (int i = 0; i < 4; i++) {
-            opts[i].setText(q.options.get(i));
+            opts[i].setText(q.answer.get(i));
             opts[i].setToggleGroup(group);
         }
 
@@ -45,7 +45,7 @@ public class QuizView {
                 } else {
                     a = new Alert(Alert.AlertType.WARNING);
                     a.setHeaderText(null);
-                    a.setContentText("Wrong, Answer is: " + q.options.get(q.correctIndex));
+                    a.setContentText("Wrong, Answer is: " + q.answer.get(q.correctIndex));
                 }
 
                 a.showAndWait();
@@ -58,6 +58,5 @@ public class QuizView {
         dlg.showAndWait();
     }
 
-    private QuizView() {
-    }
+    private QuizView() {}
 }

@@ -92,6 +92,11 @@ public class SlangDictionary {
             indexEntry(e.getKey(), e.getValue());
     }
 
+    public boolean delete(String slang) {
+        if (dict.remove(slang) == null) return false;
+        rebuildInverted();
+        return true;
+    }
 
     public boolean edit(String slang, List<String> newDefs) {
         if (!dict.containsKey(slang)) return false;
