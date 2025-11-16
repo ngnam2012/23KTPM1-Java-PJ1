@@ -157,6 +157,7 @@ public class MainView {
         rowBtns1.getChildren().addAll(btAddAppend, btOverwrite, btDelete);
 
         Button btSave = new Button("Save to file");
+        Button btReset = new Button("Reset (Reload from file)");
         lbRandom = new Label("Random: (press on toolbar)");
         lbRandom.setWrapText(true);
 
@@ -194,7 +195,30 @@ public class MainView {
             catch (Exception ex) { showErr("Save failed: " + ex.getMessage()); }
         });
 
-        right.getChildren().addAll(l3, tfSlangEdit, tfDefsEdit, rowBtns1, btSave,
+        btReset.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Are you sure? This will discard all unsaved changes and reload from slang.txt.",
+                    ButtonType.YES, ButtonType.NO);
+            confirm.setHeaderText("Confirm Reset");
+
+            var result = confirm.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.YES) {
+                try {
+                    dict.load();
+                    refreshTable(null);
+                    updateCounters();
+                    setStatus("Reset complete. Reloaded from file.");
+                } catch (Exception ex) {
+                    showErr("Failed to reset data: " + ex.getMessage());
+                }
+            } else {
+                setStatus("Reset cancelled.");
+            }
+        });
+        HBox rowBtns2 = new HBox(8, btSave, btReset);
+
+        right.getChildren().addAll(l3, tfSlangEdit, tfDefsEdit, rowBtns1, rowBtns2,
                 new Separator(), new Label("Random/Quiz"), lbRandom);
 
         SplitPane sp = new SplitPane(left, center, right);
