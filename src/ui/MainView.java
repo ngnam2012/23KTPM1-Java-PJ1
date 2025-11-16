@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -95,17 +94,19 @@ public class MainView {
         Button btSearchSlang = new Button("Search Slang");
         Button btSearchDef   = new Button("Search Def");
         Button btRandom      = new Button("Random");
+        Button btHistory     = new Button("History");
         Button btQuiz1       = new Button("Quiz S→D");
         Button btQuiz2       = new Button("Quiz D→S");
 
         btSearchSlang.setOnAction(e -> doSearchSlang());
         btSearchDef.setOnAction(e -> doSearchDef());
         btRandom.setOnAction(e -> doRandom());
+        btHistory.setOnAction(e -> doViewHistory());
         btQuiz1.setOnAction(e -> doQuiz(true));
         btQuiz2.setOnAction(e -> doQuiz(false));
 
         Region spacer = new Region(); HBox.setHgrow(spacer, Priority.ALWAYS);
-        ToolBar tb = new ToolBar(btSearchSlang, btSearchDef, btRandom, new Separator(),
+        ToolBar tb = new ToolBar(btSearchSlang, btSearchDef, btRandom, btHistory, new Separator(),
                 btQuiz1, btQuiz2, spacer, cbDark);
         tb.getStyleClass().add("app-toolbar");
         return tb;
@@ -240,7 +241,10 @@ public class MainView {
         if (list.isEmpty()) {
             history.logSearch("DEF", q, "NOT FOUND");
         } else {
-            history.logSearch("DEF", q, list.size() + " hits");
+            String slangsFound = list.stream()
+                    .map(Entry::getSlang) //
+                    .collect(Collectors.joining("; "));
+            history.logSearch("DEF", q, slangsFound);
         }
         setStatus(list.size() + " results for \"" + q + "\"");
     }
@@ -257,6 +261,11 @@ public class MainView {
         } else {
             QuizView.showQuizDialog(root, quiz.makeQuizDef2Slang());
         }
+    }
+
+    private void doViewHistory() {
+        HistoryView.showHistoryDialog(root.getScene().getWindow(), history);
+        setStatus("Viewed history log");
     }
 
     private void refreshTable(List<Entry> itemsOrNull) {
