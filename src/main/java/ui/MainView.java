@@ -91,22 +91,18 @@ public class MainView {
     }
 
     private ToolBar buildToolBar() {
-        Button btSearchSlang = new Button("Search Slang");
-        Button btSearchDef   = new Button("Search Def");
         Button btRandom      = new Button("Random");
         Button btHistory     = new Button("History");
         Button btQuiz1       = new Button("Quiz S→D");
         Button btQuiz2       = new Button("Quiz D→S");
 
-        btSearchSlang.setOnAction(e -> doSearchSlang());
-        btSearchDef.setOnAction(e -> doSearchDef());
         btRandom.setOnAction(e -> doRandom());
         btHistory.setOnAction(e -> doViewHistory());
         btQuiz1.setOnAction(e -> doQuiz(true));
         btQuiz2.setOnAction(e -> doQuiz(false));
 
         Region spacer = new Region(); HBox.setHgrow(spacer, Priority.ALWAYS);
-        ToolBar tb = new ToolBar(btSearchSlang, btSearchDef, btRandom, btHistory, new Separator(),
+        ToolBar tb = new ToolBar(btRandom, btHistory, new Separator(),
                 btQuiz1, btQuiz2, spacer, cbDark);
         tb.getStyleClass().add("app-toolbar");
         return tb;

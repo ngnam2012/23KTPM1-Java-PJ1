@@ -1,0 +1,11 @@
+core\SlangDictionary.class
+model\Entry.class
+core\QuizService.class
+core\HistoryService.class
+io\FileManager.class
+ui\HistoryView.class
+app\Main.class
+core\QuizService$Quiz.class
+ui\MainView.class
+ui\QuizView.class
+app\Launcher.class
