@@ -51,7 +51,7 @@
                 <version>3.5.1</version>
 
                 <configuration>
-                    <outputFile>${project.basedir}/lib/${project.build.finalName}.jar</outputFile>
+                    <outputFile>${project.basedir}/${project.artifactId}.jar</outputFile>
 
                     <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
