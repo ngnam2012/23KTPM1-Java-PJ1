@@ -88,7 +88,7 @@
 | 1 | Tìm kiếm theo slang | Nhập slang → tra nhanh | Có |
 | 2 | Tìm theo definition | Nhập từ khóa trong nghĩa | Có |
 | 3 | Lưu history | Ghi lại các slang đã tìm | Có |
-| 4 | Thêm slang | Thêm slang mới| Có |
+| 4 | Thêm slang | Thêm slang mới| Thiếu thông báo cho người dùng |
 | 5 | Sửa slang | Sửa nghĩa slang | Có |
 | 6 | Xóa slang | Xoá slang có confirm | Chưa có confirm |
 | 7 | Reset data | Phục hồi từ file gốc | Có |
