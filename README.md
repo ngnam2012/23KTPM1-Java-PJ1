@@ -1,6 +1,6 @@
 # ĐỒ ÁN #1 – SLANG DICTIONARY  
 **Môn học:** CSC13002 – LẬP TRÌNH ỨNG DỤNG JAVA  
-**Giảng viên hướng dẫn:** Nguyễn Văn Khiết – Nguyễn Đức Huy – Hồ Tuấn Thanh  
+**Giảng viên hướng dẫn:** Nguyễn Văn Khiết – Nguyễn Đức Huy 
 **Sinh viên thực hiện:** Nguyễn Nhật Nam – MSSV 23127092  
 **IDE:** IntelliJ IDEA 2025.2  
 **Ngôn ngữ:** Java 25 (OpenJDK 25 Temurin)  
